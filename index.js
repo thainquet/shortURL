@@ -51,7 +51,7 @@ app.post('/', (req, res) => {
     let id = shortId.generate();
     db.put(id, req.body.url, (err) => {
         if (err) return res.render('home.html', {
-            msg: err.toString();
+            msg: err.toString()
         })
 
         let url = 'thaidzvl.com/' + id;
