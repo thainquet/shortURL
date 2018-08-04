@@ -61,8 +61,9 @@ app.get('/:id', (req,res) => {
         }
 
 
-
-    res.end(url);
+    res.setHeader('Location', url);
+    res.statusCode = 301;
+    res.end();
     })
 })
 
