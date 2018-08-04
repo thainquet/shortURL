@@ -5,6 +5,7 @@ const view = require('consolidate');
 const path = require('path');
 const level = require('level');
 const shortId = require('shortid');
+const qs = require('querystring');
 
 
 const pathDb = path.resolve('./db');
@@ -27,6 +28,20 @@ app.use((req, res, next) => {
 })
 
 app.use((req, res, next) => {
+    if (req.method !== 'POST') {
+        return next();
+    }
+    let body = '';
+    req.on('data', (buff) => {
+        body += buff.toString()
+    })
+    req.on('end', ()=> {
+        req.body = qs.parse(body);
+        next();
+    })
+})
+
+app.use((req, res, next) => {
     res.json = function json(obj) {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(obj));
@@ -36,8 +51,18 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-    res.render('home.html', {
-        name: 'thai'
+    res.render('home.html')
+})
+
+app.get('/:id', (req,res) => {
+    db.get(req.params.id, (err, url) => {
+        if (err) {
+            return res.end('404 not found')
+        }
+
+
+
+    res.end(url);
     })
 })
 
@@ -51,10 +76,10 @@ app.post('/', (req, res) => {
     let id = shortId.generate();
     db.put(id, req.body.url, (err) => {
         if (err) return res.render('home.html', {
-            msg: err.toString()
+            msg: err
         })
 
-        let url = 'thaidzvl.com/' + id;
+        let url = 'localhost:7777/' + id;
         res.render('home.html', {
             msg: `URL: ${url}`
         })
@@ -63,6 +88,8 @@ app.post('/', (req, res) => {
 
 
 server.on('request', (req, res) => {
-    app(req, res, finalhandler)
+    app(req, res, finalhandler(req,res))
 })
+
+
 server.listen(process.env.PORT || 7777);
