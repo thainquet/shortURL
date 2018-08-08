@@ -81,7 +81,7 @@ app.post('/', (req, res) => {
 
         let url = 'https://thai-sl.herokuapp.com/' + id;
         res.render('home.html', {
-            msg: `URL: ${url}`
+            msg: `${url}`
         })
     })
 })

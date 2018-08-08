@@ -4,17 +4,55 @@
 <head>
     <meta charset="utf-8" />
     <title>Shorten your link!</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        form {
+            margin: 100px auto;
+            height: 50px;
+        }
+
+        input {
+            font-size: 50px;
+        }
+
+        button {
+            font-size: 50px
+        }
+
+        #text {
+            margin: auto;
+            padding: 15px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        #footer {
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+    <script>
+        function copy() {
+            var copyText = document.getElementById("here");
+            copyText.select();
+            document.execCommand("copy");
+        }
+    </script>
 </head>
 
 <body>
     <form method="POST">
-        <input type="url" name="url"></input>
-        <button type="submit">Get</button>
+        <input type="url" name="url" placeholder="Enter your URL here..."></input>
+        <button type="submit" id="main">Shorten It !!</button>
     </form>
-    
-    <p>
-        {{msg}}
-    </p>
+    <div id="text">Your URL after shortening:</div>
+    <input type="text" value="{{msg}}" id="here">
+    <button onclick="copy()">Copy it!</button>
+    <footer id="footer">&copy; Copyright 07-2018 Thainq</footer>
+
 </body>
 
 </html>
