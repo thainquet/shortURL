@@ -80,7 +80,7 @@ app.post('/', (req, res) => {
             msg: err
         })
 
-        let url = 'https://shorten-link-thainq.herokuapp.com/' + id;
+        let url = 'https://thai-sl.herokuapp.com/' + id;
         res.render('home.html', {
             msg: `URL: ${url}`
         })
