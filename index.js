@@ -73,7 +73,6 @@ app.post('/', (req, res) => {
             msg: "URL is required"
         })
     }
-
     let id = shortId.generate();
     db.put(id, req.body.url, (err) => {
         if (err) return res.render('home.html', {
